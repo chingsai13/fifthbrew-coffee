@@ -1,0 +1,30 @@
+5TH BREW - SAMPLE TEST ACCOUNTS
+================================
+
+ADMIN ACCOUNT
+-------------
+Create this yourself by visiting admin/setup_admin.php once on your live
+host (then delete that file). Suggested values for your submission doc:
+
+Username: admin
+Password: Admin1234!
+Full Name: Juan Dela Cruz
+Role: superadmin
+
+BUYER TEST ACCOUNT
+-------------------
+Register this through register.php on the live site, then verify via
+the email link (or manually verify using the SQL command below if your
+free host's mail() doesn't deliver).
+
+Full Name: Maria Santos
+Email: maria.santos.test@gmail.com
+Password: Buyer1234!
+Address: 123 Kalinangan St., Quezon City
+Contact Number: 09171234567
+
+MANUAL VERIFICATION (if confirmation email doesn't arrive)
+-----------------------------------------------------------
+Run this in phpMyAdmin > SQL tab on your hosted database:
+
+UPDATE buyers SET is_verified = 1 WHERE email = 'maria.santos.test@gmail.com';
