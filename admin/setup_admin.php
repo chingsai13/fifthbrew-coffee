@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
         mysqli_query($conn, "INSERT INTO admins (full_name, username, password, role, created_at)
                               VALUES ('$full_name','$username','$hashed','superadmin', NOW())");
-        $message = "Admin account created! Go to login.php. Please delete setup_admin.php now.";
+        $message = 'Admin account created! Go to <a href="../login.php">the main login page</a> and choose "Admin". Please delete setup_admin.php now.';
     }
 }
 ?>
