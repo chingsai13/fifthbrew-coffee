@@ -6,7 +6,7 @@
 // Straight from the M5 slide's regex email validation example.
 function validate_email($email_address)
 {
-    if (!preg_match("/^([a-zA-Z0-9]+([a-zA-Z0-9._-]*[a-zA-Z0-9_-]+)*@([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/", $email_address)) {
+    if (!preg_match("/^([a-zA-Z0-9]+([a-zA-Z0-9._-]*[a-zA-Z0-9_-]+)*)@([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/", $email_address)) {
         return false;
     }
     return true;
