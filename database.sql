@@ -4,8 +4,11 @@
 -- Import this whole file via phpMyAdmin on your host.
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS fifthbrew;
-USE fifthbrew;
+-- NOTE: no CREATE DATABASE / USE here on purpose — free hosts like
+-- InfinityFree assign you a database already (e.g. if0_xxxxx_fifthbrew)
+-- and phpMyAdmin runs this import inside it directly. If you're running
+-- this locally in XAMPP instead, just create/select the database first
+-- in phpMyAdmin, then import this file.
 
 -- ---------------------------------------------------------
 -- SELLER SIDE
