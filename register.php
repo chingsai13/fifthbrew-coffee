@@ -52,7 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $headers = "From: no-reply@5thbrew.com";
             @mail($email, $subject, $message, $headers);
 
-            $success = "Registration successful! Please check your email (" . htmlspecialchars($email) . ") to verify your account.";
+            $success = "Registration successful! We've sent a confirmation email to " . htmlspecialchars($email) . ".";
+            $success_verify_link = $verify_link;
         } else {
             $errors[] = "Something went wrong. Please try again.";
         }
@@ -64,8 +65,15 @@ include 'includes/header.php';
 <h1>Register</h1>
 
 <?php foreach ($errors as $e) echo "<p style='color:red;'>$e</p>"; ?>
-<?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
+<?php if (isset($success)): ?>
+    <p style="color:green;"><?php echo $success; ?></p>
+    <p>Didn't get the email? Free hosts can be slow or unreliable with mail delivery.
+        You can verify right away instead:<br>
+        <a href="<?php echo htmlspecialchars($success_verify_link); ?>">Verify my account now</a>
+    </p>
+<?php endif; ?>
 
+<?php if (!isset($success)): ?>
 <form method="POST" action="register.php">
     Complete Name:<br>
     <input type="text" name="full_name" value="<?php echo isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : ''; ?>"><br><br>
@@ -87,5 +95,8 @@ include 'includes/header.php';
 
     <input type="submit" value="Register">
 </form>
+<?php else: ?>
+    <p><a href="login.php">Go to Login</a></p>
+<?php endif; ?>
 
 <?php include 'includes/footer.php'; ?>
