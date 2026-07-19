@@ -50,6 +50,7 @@ CREATE TABLE products (
     category_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(255) NULL,
+    image VARCHAR(255) NULL,
     is_special INT NOT NULL DEFAULT 0,
     created_at DATETIME NOT NULL,
     PRIMARY KEY (id)
@@ -131,20 +132,20 @@ INSERT INTO categories (name) VALUES
 -- ---------------------------------------------------------
 -- SEED DATA: products
 -- ---------------------------------------------------------
-INSERT INTO products (category_id, name, description, is_special, created_at) VALUES
-(1,'Matcha Latte','Premium matcha whisked with steamed milk.',0,NOW()),
-(1,'Matcha Blueberry Latte','Matcha latte with a blueberry twist.',0,NOW()),
-(1,'Coconut Latte','Espresso with coconut milk.',0,NOW()),
-(1,'Ube Latte','Espresso with real ube flavoring.',0,NOW()),
-(1,'Spanish Latte','Sweet, creamy classic Spanish-style latte.',0,NOW()),
-(1,'Cappuccino','Classic espresso with steamed milk foam.',0,NOW()),
-(2,'5th Brew Latte (Double Shot Breve Latte)','Our signature double-shot breve latte.',0,NOW()),
-(2,'Tag-Ulan Latte (Honey Kalingag Latte)','Honey and Philippine cinnamon (kalingag), served hot only.',0,NOW()),
-(2,'Tag-Init Latte (Muscovado Vanilla Breve Latte)','Muscovado vanilla breve, served cold only.',0,NOW()),
-(3,'Binhi Latte (Roasted Rice Brew)','Roasted rice brew, cold brew or morning brew.',0,NOW()),
-(3,'Kalamansi Tea','Refreshing Philippine calamansi tea.',0,NOW()),
-(3,'Tablea Latte (Davao Cacao Chocolate Latte)','Made from Davao tablea cacao.',0,NOW()),
-(4,'Asin Tibuok Latte (Philippine Sea Salt Latte)','SPECIAL: rare Philippine sea salt latte.',1,NOW());
+INSERT INTO products (category_id, name, description, image, is_special, created_at) VALUES
+(1,'Matcha Latte','Premium matcha whisked with steamed milk.',NULL,0,NOW()),
+(1,'Matcha Blueberry Latte','Matcha latte with a blueberry twist.','matcha-blueberry-latte.png',0,NOW()),
+(1,'Coconut Latte','Espresso with coconut milk.','coconut-latte.png',0,NOW()),
+(1,'Ube Latte','Espresso with real ube flavoring.','ube-latte.png',0,NOW()),
+(1,'Spanish Latte','Sweet, creamy classic Spanish-style latte.','spanish-latte.png',0,NOW()),
+(1,'Cappuccino','Classic espresso with steamed milk foam.','cappuccino.png',0,NOW()),
+(2,'5th Brew Latte (Double Shot Breve Latte)','Our signature double-shot breve latte.','5th-brew-latte.png',0,NOW()),
+(2,'Tag-Ulan Latte (Honey Kalingag Latte)','Honey and Philippine cinnamon (kalingag), served hot only.','honey-kalingag-latte.png',0,NOW()),
+(2,'Tag-Init Latte (Muscovado Vanilla Breve Latte)','Muscovado vanilla breve, served cold only.','muscovado-vanilla-latte.png',0,NOW()),
+(3,'Binhi Latte (Roasted Rice Brew)','Roasted rice brew, cold brew or morning brew.','binhi-latte.png',0,NOW()),
+(3,'Kalamansi Tea','Refreshing Philippine calamansi tea.','kalamansi-tea.png',0,NOW()),
+(3,'Tablea Latte (Davao Cacao Chocolate Latte)','Made from Davao tablea cacao.','tablea-latte.png',0,NOW()),
+(4,'Asin Tibuok Latte (Philippine Sea Salt Latte)','SPECIAL: rare Philippine sea salt latte.','asin-tibuok-latte.png',1,NOW());
 
 -- ---------------------------------------------------------
 -- SEED DATA: product_options (sizes: Lupa 12oz / Dagat 16oz / Araw 22oz)
