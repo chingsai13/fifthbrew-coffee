@@ -67,20 +67,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 include 'includes/header.php';
 ?>
-<h1>Payment</h1>
+<div class="page-wrap">
+    <h1>Payment</h1>
 
-<?php if (isset($_GET['success'])): ?>
-    <p style="color:green;">Order #<?php echo $_SESSION['last_order_id']; ?> placed successfully! (This is a class project - no real payment was processed.)</p>
-    <p><a href="store.php">Continue Shopping</a></p>
-<?php else: ?>
-    <h3>Total to Pay: <?php echo format_price($total); ?></h3>
-    <form method="POST" action="payment.php">
-        Select Payment Method:<br>
-        <input type="radio" name="payment_method" value="Cash on Delivery" checked> Cash on Delivery<br>
-        <input type="radio" name="payment_method" value="GCash"> GCash (not yet integrated - simulation only)<br>
-        <input type="radio" name="payment_method" value="Bank Transfer"> Bank Transfer (simulation only)<br><br>
-        <input type="submit" value="Place Order">
-    </form>
-<?php endif; ?>
-
+    <?php if (isset($_GET['success'])): ?>
+        <div class="form-card">
+            <div class="alert alert-success">Order #<?php echo $_SESSION['last_order_id']; ?> placed successfully! (This is a class project - no real payment was processed.)</div>
+            <p class="form-footnote"><a href="store.php">Continue Shopping</a></p>
+        </div>
+    <?php else: ?>
+        <div class="form-card">
+            <h3 class="cart-total" style="text-align:center;">Total to Pay: <?php echo format_price($total); ?></h3>
+            <form method="POST" action="payment.php">
+                <div class="form-group">
+                    <label>Select Payment Method</label>
+                    <div class="radio-row" style="flex-direction:column; align-items:flex-start; gap:12px;">
+                        <label><input type="radio" name="payment_method" value="Cash on Delivery" checked> Cash on Delivery</label>
+                        <label><input type="radio" name="payment_method" value="GCash"> GCash (not yet integrated - simulation only)</label>
+                        <label><input type="radio" name="payment_method" value="Bank Transfer"> Bank Transfer (simulation only)</label>
+                    </div>
+                </div>
+                <input type="submit" value="Place Order">
+            </form>
+        </div>
+    <?php endif; ?>
+</div>
 <?php include 'includes/footer.php'; ?>

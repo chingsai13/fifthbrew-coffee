@@ -46,6 +46,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     $success = "Admin user updated.";
 }
 
+// DELETE an admin
+if (isset($_GET['delete'])) {
+    $delete_id = clean_input($conn, $_GET['delete']);
+
+    if ($delete_id == $_SESSION['admin_id']) {
+        $error = "You can't delete your own account while logged in as it.";
+    } else {
+        $target = mysqli_fetch_assoc(mysqli_query($conn, "SELECT username FROM admins WHERE id='$delete_id'"));
+        if ($target) {
+            mysqli_query($conn, "DELETE FROM admins WHERE id='$delete_id'");
+            log_admin_action($conn, $_SESSION['admin_id'], $_SESSION['admin_username'], 'DELETE_ADMIN', "Deleted admin user: " . $target['username']);
+            $success = "Admin user deleted.";
+        }
+    }
+}
+
 $edit_row = null;
 if (isset($_GET['edit'])) {
     $edit_id = clean_input($conn, $_GET['edit']);
@@ -57,47 +73,93 @@ $admins = mysqli_query($conn, "SELECT * FROM admins ORDER BY id");
 include 'includes/admin_header.php';
 ?>
 <h1>Manage Admin Users</h1>
-<?php if ($error) echo "<p style='color:red;'>$error</p>"; ?>
-<?php if ($success) echo "<p style='color:green;'>$success</p>"; ?>
+<?php if ($error) echo "<p style='color:red;'>" . htmlspecialchars($error) . "</p>"; ?>
+<?php if ($success) echo "<p style='color:green;'>" . htmlspecialchars($success) . "</p>"; ?>
 
 <h2><?php echo $edit_row ? 'Edit Admin User' : 'Add New Admin User'; ?></h2>
-<form method="POST" action="manage_users.php">
+
+<form method="POST" action="manage_users.php" class="wide-form">
     <?php if ($edit_row): ?>
         <input type="hidden" name="action" value="edit">
         <input type="hidden" name="id" value="<?php echo $edit_row['id']; ?>">
-        Full Name: <input type="text" name="full_name" value="<?php echo htmlspecialchars($edit_row['full_name']); ?>"><br><br>
-        Role:
-        <select name="role">
-            <option value="admin" <?php echo $edit_row['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
-            <option value="superadmin" <?php echo $edit_row['role'] == 'superadmin' ? 'selected' : ''; ?>>Superadmin</option>
-        </select><br><br>
-        New Password (leave blank to keep current): <input type="password" name="new_password"><br><br>
-        <input type="submit" value="Save Changes">
+
+        <div class="wide-form-grid">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" value="<?php echo htmlspecialchars($edit_row['full_name']); ?>">
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select name="role">
+                    <option value="admin" <?php echo $edit_row['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                    <option value="superadmin" <?php echo $edit_row['role'] == 'superadmin' ? 'selected' : ''; ?>>Superadmin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>New Password <small>(leave blank to keep current)</small></label>
+                <input type="password" name="new_password">
+            </div>
+        </div>
+
+        <div class="wide-form-actions">
+            <input type="submit" value="Save Changes">
+            <a href="manage_users.php" class="btn-cancel-link">Cancel</a>
+        </div>
     <?php else: ?>
         <input type="hidden" name="action" value="add">
-        Full Name: <input type="text" name="full_name"><br><br>
-        Username: <input type="text" name="username"><br><br>
-        Password: <input type="password" name="password"><br><br>
-        Role:
-        <select name="role">
-            <option value="admin">Admin</option>
-            <option value="superadmin">Superadmin</option>
-        </select><br><br>
-        <input type="submit" value="Add Admin User">
+
+        <div class="wide-form-grid">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name">
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select name="role">
+                    <option value="admin">Admin</option>
+                    <option value="superadmin">Superadmin</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="wide-form-actions">
+            <input type="submit" value="Add Admin User">
+        </div>
     <?php endif; ?>
 </form>
 
 <h2>Existing Admin Users</h2>
-<table border="1" cellpadding="6">
-<tr><th>ID</th><th>Full Name</th><th>Username</th><th>Role</th><th>Created</th><th></th></tr>
+<table>
+<tr><th>ID</th><th>Full Name</th><th>Username</th><th>Role</th><th>Created</th><th colspan="2">Actions</th></tr>
 <?php while ($a = mysqli_fetch_assoc($admins)): ?>
     <tr>
         <td><?php echo $a['id']; ?></td>
         <td><?php echo htmlspecialchars($a['full_name']); ?></td>
         <td><?php echo htmlspecialchars($a['username']); ?></td>
-        <td><?php echo htmlspecialchars($a['role']); ?></td>
+        <td>
+            <span class="role-badge role-<?php echo htmlspecialchars($a['role']); ?>">
+                <?php echo htmlspecialchars(ucfirst($a['role'])); ?>
+            </span>
+        </td>
         <td><?php echo $a['created_at']; ?></td>
-        <td><a href="manage_users.php?edit=<?php echo $a['id']; ?>">Edit</a></td>
+        <td><a href="manage_users.php?edit=<?php echo $a['id']; ?>" class="btn-small">Edit</a></td>
+        <td>
+            <?php if ($a['id'] != $_SESSION['admin_id']): ?>
+                <a href="manage_users.php?delete=<?php echo $a['id']; ?>"
+                   class="btn-small danger"
+                   onclick="return confirm('Delete admin user \'<?php echo htmlspecialchars($a['username'], ENT_QUOTES); ?>\'? This cannot be undone.');">Delete</a>
+            <?php else: ?>
+                <span class="self-tag">You</span>
+            <?php endif; ?>
+        </td>
     </tr>
 <?php endwhile; ?>
 </table>

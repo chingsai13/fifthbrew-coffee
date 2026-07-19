@@ -36,32 +36,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 include 'includes/header.php';
 ?>
-<h1>Checkout</h1>
+<div class="page-wrap page-wrap-wide">
+    <h1>Checkout</h1>
 
-<h3>Order Summary</h3>
-<table border="1" cellpadding="6">
-<tr><th>Product</th><th>Size</th><th>Temp</th><th>Qty</th><th>Subtotal</th></tr>
-<?php foreach ($items as $it): ?>
-    <tr>
-        <td><?php echo htmlspecialchars($it['name']); ?></td>
-        <td><?php echo htmlspecialchars($it['size_label']); ?></td>
-        <td><?php echo htmlspecialchars($it['temperature']); ?></td>
-        <td><?php echo $it['quantity']; ?></td>
-        <td><?php echo format_price($it['subtotal']); ?></td>
-    </tr>
-<?php endforeach; ?>
-</table>
-<h3>Total: <?php echo format_price($total); ?></h3>
+    <div class="checkout-layout">
+        <div class="summary-box checkout-col">
+            <h3>Order Summary</h3>
+            <div class="table-wrap">
+            <table class="styled-table">
+            <tr><th>Product</th><th>Size</th><th>Temp</th><th>Qty</th><th>Subtotal</th></tr>
+            <?php foreach ($items as $it): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($it['name']); ?></td>
+                    <td><?php echo htmlspecialchars($it['size_label']); ?></td>
+                    <td><?php echo htmlspecialchars($it['temperature']); ?></td>
+                    <td><?php echo $it['quantity']; ?></td>
+                    <td><?php echo format_price($it['subtotal']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </table>
+            </div>
+            <h3 class="cart-total">Total: <?php echo format_price($total); ?></h3>
+        </div>
 
-<h3>Delivery Details</h3>
-<form method="POST" action="checkout.php">
-    Complete Name:<br>
-    <input type="text" name="full_name" value="<?php echo htmlspecialchars($buyer['full_name']); ?>"><br><br>
-    Complete Address:<br>
-    <input type="text" name="address" value="<?php echo htmlspecialchars($buyer['address']); ?>"><br><br>
-    Contact Number:<br>
-    <input type="text" name="contact_number" value="<?php echo htmlspecialchars($buyer['contact_number']); ?>"><br><br>
-    <input type="submit" value="Continue to Payment">
-</form>
-
+        <div class="form-card checkout-col">
+            <h1>Delivery Details</h1>
+            <form method="POST" action="checkout.php">
+                <div class="form-group">
+                    <label>Complete Name</label>
+                    <input type="text" name="full_name" value="<?php echo htmlspecialchars($buyer['full_name']); ?>">
+                </div>
+                <div class="form-group">
+                    <label>Complete Address</label>
+                    <input type="text" name="address" value="<?php echo htmlspecialchars($buyer['address']); ?>">
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" name="contact_number" value="<?php echo htmlspecialchars($buyer['contact_number']); ?>">
+                </div>
+                <input type="submit" value="Continue to Payment">
+            </form>
+        </div>
+    </div>
+</div>
 <?php include 'includes/footer.php'; ?>

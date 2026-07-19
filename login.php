@@ -56,23 +56,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 include 'includes/header.php';
 ?>
-<h1>Login</h1>
-<?php if ($error) echo "<p style='color:red;'>$error</p>"; ?>
+<div class="page-wrap">
+    <div class="form-card">
+        <h1>Login</h1>
+        <?php if ($error): ?>
+            <div class="alert alert-error"><?php echo $error; ?></div>
+        <?php endif; ?>
 
-<form method="POST" action="login.php">
-    Log in as:<br>
-    <input type="radio" name="login_as" value="buyer" checked> Customer
-    <input type="radio" name="login_as" value="admin"> Admin
-    <br><br>
+        <form method="POST" action="login.php">
+            <div class="form-group">
+                <label>Log in as:</label>
+                <div class="radio-row">
+                    <label><input type="radio" name="login_as" value="buyer" checked> Customer</label>
+                    <label><input type="radio" name="login_as" value="admin"> Admin</label>
+                </div>
+            </div>
 
-    Email (Customer) / Username (Admin):<br>
-    <input type="text" name="identifier"><br><br>
+            <div class="form-group">
+                <label>Email (Customer) / Username (Admin)</label>
+                <input type="text" name="identifier">
+            </div>
 
-    Password:<br>
-    <input type="password" name="password"><br><br>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
 
-    <input type="submit" value="Login">
-</form>
-<p>No account yet? <a href="register.php">Register as a customer here</a></p>
-
+            <input type="submit" value="Login">
+        </form>
+        <p class="form-footnote">No account yet? <a href="register.php">Register as a customer here</a></p>
+    </div>
+</div>
 <?php include 'includes/footer.php'; ?>

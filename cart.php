@@ -27,43 +27,46 @@ $total = 0;
 
 include 'includes/header.php';
 ?>
-<h1>Your Cart</h1>
+<div class="page-wrap">
+    <h1>Your Cart</h1>
 
-<table border="1" cellpadding="6">
-<tr><th>Product</th><th>Size</th><th>Temp</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr>
-<?php while ($row = mysqli_fetch_assoc($result)):
-    $subtotal = $row['price'] * $row['quantity'];
-    $total += $subtotal;
-?>
-    <tr>
-        <td><?php echo htmlspecialchars($row['name']); ?></td>
-        <td><?php echo htmlspecialchars($row['size_label']); ?></td>
-        <td><?php echo htmlspecialchars($row['temperature']); ?></td>
-        <td><?php echo format_price($row['price']); ?></td>
-        <td>
-            <form method="POST" action="cart.php" style="display:inline;">
-                <input type="number" name="quantity" value="<?php echo $row['quantity']; ?>" min="1" style="width:50px;">
-                <input type="hidden" name="update_id" value="<?php echo $row['id']; ?>">
-                <input type="submit" value="Update">
-            </form>
-        </td>
-        <td><?php echo format_price($subtotal); ?></td>
-        <td>
-            <form method="POST" action="cart.php" style="display:inline;">
-                <input type="hidden" name="remove_id" value="<?php echo $row['id']; ?>">
-                <input type="submit" value="Remove">
-            </form>
-        </td>
-    </tr>
-<?php endwhile; ?>
-</table>
+    <div class="table-wrap">
+    <table class="styled-table">
+    <tr><th>Product</th><th>Size</th><th>Temp</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr>
+    <?php while ($row = mysqli_fetch_assoc($result)):
+        $subtotal = $row['price'] * $row['quantity'];
+        $total += $subtotal;
+    ?>
+        <tr>
+            <td><?php echo htmlspecialchars($row['name']); ?></td>
+            <td><?php echo htmlspecialchars($row['size_label']); ?></td>
+            <td><?php echo htmlspecialchars($row['temperature']); ?></td>
+            <td><?php echo format_price($row['price']); ?></td>
+            <td>
+                <form method="POST" action="cart.php" style="display:inline-flex; gap:6px; align-items:center;">
+                    <input type="number" name="quantity" value="<?php echo $row['quantity']; ?>" min="1">
+                    <input type="hidden" name="update_id" value="<?php echo $row['id']; ?>">
+                    <input type="submit" class="btn-small" value="Update">
+                </form>
+            </td>
+            <td><?php echo format_price($subtotal); ?></td>
+            <td>
+                <form method="POST" action="cart.php" style="display:inline;">
+                    <input type="hidden" name="remove_id" value="<?php echo $row['id']; ?>">
+                    <input type="submit" class="btn-small danger" value="Remove">
+                </form>
+            </td>
+        </tr>
+    <?php endwhile; ?>
+    </table>
+    </div>
 
-<h3>Total: <?php echo format_price($total); ?></h3>
+    <h3 class="cart-total">Total: <?php echo format_price($total); ?></h3>
 
-<?php if ($total > 0): ?>
-    <p><a href="checkout.php">Proceed to Checkout</a></p>
-<?php else: ?>
-    <p>Your cart is empty. <a href="store.php">Go shopping</a></p>
-<?php endif; ?>
-
+    <?php if ($total > 0): ?>
+        <p><a href="checkout.php" class="btn-primary" style="display:inline-block; width:auto;">Proceed to Checkout</a></p>
+    <?php else: ?>
+        <p>Your cart is empty. <a href="store.php">Go shopping</a></p>
+    <?php endif; ?>
+</div>
 <?php include 'includes/footer.php'; ?>

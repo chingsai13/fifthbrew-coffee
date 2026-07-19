@@ -25,7 +25,11 @@ if (isset($_GET['token'])) {
 
 include 'includes/header.php';
 ?>
-<h1>Account Verification</h1>
-<p><?php echo $message; ?></p>
-<p><a href="login.php">Go to Login</a></p>
+<div class="page-wrap">
+    <div class="form-card">
+        <h1>Account Verification</h1>
+        <p><?php echo $message; ?></p>
+        <p class="form-footnote"><a href="login.php">Go to Login</a></p>
+    </div>
+</div>
 <?php include 'includes/footer.php'; ?>

@@ -62,41 +62,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 include 'includes/header.php';
 ?>
-<h1>Register</h1>
+<div class="page-wrap">
+    <div class="form-card">
+        <h1>Register</h1>
 
-<?php foreach ($errors as $e) echo "<p style='color:red;'>$e</p>"; ?>
-<?php if (isset($success)): ?>
-    <p style="color:green;"><?php echo $success; ?></p>
-    <p>Didn't get the email? Free hosts can be slow or unreliable with mail delivery.
-        You can verify right away instead:<br>
-        <a href="<?php echo htmlspecialchars($success_verify_link); ?>">Verify my account now</a>
-    </p>
-<?php endif; ?>
+        <?php if (!empty($errors)): ?>
+            <div class="alert alert-error">
+                <?php foreach ($errors as $e) echo htmlspecialchars($e) . "<br>"; ?>
+            </div>
+        <?php endif; ?>
 
-<?php if (!isset($success)): ?>
-<form method="POST" action="register.php">
-    Complete Name:<br>
-    <input type="text" name="full_name" value="<?php echo isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : ''; ?>"><br><br>
+        <?php if (isset($success)): ?>
+            <div class="alert alert-success"><?php echo $success; ?></div>
+            <p>Didn't get the email? Free hosts can be slow or unreliable with mail delivery.
+                You can verify right away instead:<br>
+                <a href="<?php echo htmlspecialchars($success_verify_link); ?>">Verify my account now</a>
+            </p>
+        <?php endif; ?>
 
-    Email Address:<br>
-    <input type="text" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"><br><br>
+        <?php if (!isset($success)): ?>
+        <form method="POST" action="register.php">
+            <div class="form-group">
+                <label>Complete Name</label>
+                <input type="text" name="full_name" value="<?php echo isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : ''; ?>">
+            </div>
 
-    Password:<br>
-    <input type="password" name="password"><br><br>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="text" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+            </div>
 
-    Confirm Password:<br>
-    <input type="password" name="confirm_password"><br><br>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
 
-    Complete Address:<br>
-    <input type="text" name="address" value="<?php echo isset($_POST['address']) ? htmlspecialchars($_POST['address']) : ''; ?>"><br><br>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password">
+            </div>
 
-    Contact Number:<br>
-    <input type="text" name="contact_number" value="<?php echo isset($_POST['contact_number']) ? htmlspecialchars($_POST['contact_number']) : ''; ?>"><br><br>
+            <div class="form-group">
+                <label>Complete Address</label>
+                <input type="text" name="address" value="<?php echo isset($_POST['address']) ? htmlspecialchars($_POST['address']) : ''; ?>">
+            </div>
 
-    <input type="submit" value="Register">
-</form>
-<?php else: ?>
-    <p><a href="login.php">Go to Login</a></p>
-<?php endif; ?>
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" name="contact_number" value="<?php echo isset($_POST['contact_number']) ? htmlspecialchars($_POST['contact_number']) : ''; ?>">
+            </div>
 
+            <input type="submit" value="Register">
+        </form>
+        <?php else: ?>
+            <p class="form-footnote"><a href="login.php">Go to Login</a></p>
+        <?php endif; ?>
+    </div>
+</div>
 <?php include 'includes/footer.php'; ?>
